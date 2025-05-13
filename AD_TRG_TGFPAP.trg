@@ -8,6 +8,15 @@ V_VALIDAPROD INT;
 V_NUNICO INT;
 V_SEQ INT;
 
+    /*----------------------------------------------------------------------------------------------------
+      %proposito:   Validar informações de cadastro de produtos.
+      %observacao: trigger faz parte do projeto de substituição do MITRA.   
+      %historia: Criada para atendimento do briefing:
+      https://docs.google.com/document/d/1o-U5oKX5WiKUQrP1IGEyA3LInDaipLJYVz4Vtunuji0/edit?tab=t.0
+      * 01.00.0 29/10/2024 Diego.Alves
+      - versao inicial
+      ----------------------------------------------------------------------------------------------------*/
+
 BEGIN 
 
 SELECT COUNT(1)
