@@ -16,6 +16,8 @@ CREATE OR REPLACE PROCEDURE "AD_STP_TGFPROCAB_APROV" (
     V_MSGFIS VARCHAR2(50);
     V_MSGREG VARCHAR2(50);
     V_USOPROD VARCHAR2(2);
+    V_PAP INT;
+    V_PAIS INT;
 BEGIN
     FOR I IN 1..P_QTDLINHAS LOOP
         FIELD_NUNICO := ACT_INT_FIELD(P_IDSESSAO, I, 'NUNICO');
@@ -132,11 +134,45 @@ BEGIN
                     WHERE NUNICO = FIELD_NUNICO;
                 END IF;
 
+                SELECT COUNT(1)
+                INTO V_PASSO
+                FROM AD_TGFPROPAS
+                WHERE NUNICO = FIELD_NUNICO;
+
                 IF V_PASSO >= 1 THEN
                     UPDATE AD_TGFPROPAS
                     SET CODUSU = STP_GET_CODUSULOGADO,
                         DHAPROVACAO = SYSDATE
                     WHERE NUNICO = FIELD_NUNICO;
+                END IF;
+
+                SELECT COUNT(1)
+                INTO V_PAIS
+                FROM AD_TGFPROPAI
+                WHERE NUNICO = FIELD_NUNICO;
+
+                IF V_PAIS >= 1 THEN
+                    UPDATE AD_TGFPROPAI
+                    SET CODUSU = STP_GET_CODUSULOGADO,
+                        DHAPROVACAO = SYSDATE
+                    WHERE NUNICO = FIELD_NUNICO;
+                END IF;
+
+
+               SELECT COUNT(1)
+                INTO V_PAP
+                FROM AD_TGFPROPAP
+                WHERE NUNICO = FIELD_NUNICO;
+
+                IF V_PAP >= 1 THEN
+
+
+                    UPDATE AD_TGFPROPAP
+                    SET CODUSU = STP_GET_CODUSULOGADO,
+                        DHAPROVACAO = SYSDATE
+                    WHERE NUNICO = FIELD_NUNICO;
+
+
                 END IF;
             END IF;
         END IF;
@@ -152,5 +188,6 @@ BEGIN
 
     P_MENSAGEM := 'Produto aprovado!';
 END;
+
 
 /
