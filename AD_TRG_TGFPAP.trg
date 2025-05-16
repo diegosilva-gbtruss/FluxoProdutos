@@ -53,34 +53,35 @@ WHERE CODPROD = :NEW.CODPROD;
 
     END IF;
     END IF;
-    
+
         IF V_VALIDAPROD >=1 AND DELETING THEN 
-        
+
                 SELECT COUNT(1)
                 INTO V_VALIDASEQ
                 FROM AD_TGFPROPAP
                 WHERE NUNICO = (SELECT NUNICO FROM AD_TGFPROCAB WHERE CODPROD = :OLD.CODPROD)
                 AND SEQUENCIA = :OLD.SEQUENCIA
                 AND CODPARC = :OLD.CODPARC;
-                
+
                    IF V_VALIDASEQ >= 1 THEN
-                   
+
                    DELETE FROM AD_TGFPROPAP WHERE NUNICO = (SELECT NUNICO FROM AD_TGFPROCAB WHERE CODPROD = :OLD.CODPROD) AND SEQUENCIA = :OLD.SEQUENCIA AND CODPARC = :OLD.CODPARC;
-                   
+
                    END IF;
-                   
+                   END IF;
+
                IF V_VALIDAPROD >=1 AND UPDATING THEN     
-               
-             
+
+
                 SELECT COUNT(1)
                 INTO V_VALIDASEQ
                 FROM AD_TGFPROPAP
                 WHERE NUNICO = (SELECT NUNICO FROM AD_TGFPROCAB WHERE CODPROD = :NEW.CODPROD)
                 AND SEQUENCIA = :NEW.SEQUENCIA
                 AND CODPARC = :NEW.CODPARC;
-                
+
                 IF V_VALIDASEQ >= 1 THEN
-               
+
                UPDATE AD_TGFPROPAP SET 
                CODPROPARC = :NEW.CODPROPARC,
                 DESCRPROPARC = :NEW.DESCRPROPARC,
@@ -94,13 +95,14 @@ WHERE CODPROD = :NEW.CODPROD;
                 WHERE NUNICO = (SELECT NUNICO FROM AD_TGFPROCAB WHERE CODPROD = :NEW.CODPROD)
                 AND SEQUENCIA = :NEW.SEQUENCIA
                 AND CODPARC = :NEW.CODPARC;
-               
+
                END IF;
                END IF;
-            
-        END IF;
-    
+
+
+
 commit;
 
 
 END;
+/
